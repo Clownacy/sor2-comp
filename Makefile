@@ -1,10 +1,10 @@
 all: decompress compress view
 
 decompress: decompress.c
-	$(CC) $^ -o $@ -Wall -Wextra -pedantic -ggdb3
+	$(CC) $^ -o $@ $(CFLAGS) $(LDFLAGS) -Wall -Wextra -pedantic -ggdb3
 
 compress: compress.c
-	$(CC) $^ -o $@ -Wall -Wextra -pedantic -ggdb3
+	$(CC) $^ -o $@ $(CFLAGS) $(LDFLAGS) -Wall -Wextra -pedantic -ggdb3
 
 view: view.c
-	$(CC) $^ -o $@ -Wall -Wextra -pedantic -ggdb3 `sdl2-config --cflags --libs`
+	$(CC) $^ -o $@ $(CFLAGS) $(LDFLAGS) -Wall -Wextra -pedantic -ggdb3 `sdl2-config --cflags --libs`
