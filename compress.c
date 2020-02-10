@@ -93,15 +93,18 @@ int main(int argc, char *argv[])
 				fread(in_buffer, 1, in_size, in_file);
 				fclose(in_file);
 
+				// Begin compression
 				size_t current_index = 0;
 				while (current_index < in_size)
 				{
+					// Search for RLE-matches
 					size_t rle_length;
 
 					for (rle_length = 1; rle_length <= MIN(0xFFF + 4, in_size - current_index); ++rle_length)
 						if (in_buffer[current_index] != in_buffer[current_index + rle_length])
 							break;
 
+					// Search for dictionary-matches
 					size_t best_match_length = 0;
 					size_t best_match_backsearch = 0;
 
@@ -120,10 +123,12 @@ int main(int argc, char *argv[])
 						}
 					}
 
-					if (rle_length < 4 && best_match_length < 4)
+					if (rle_length < 4 && best_match_length < 4)	// Matches must be 4 bytes or longer
 					{
+						// Add byte to the byte queue
 						uncompressed_queue[uncompressed_queue_index++] = in_buffer[current_index];
 
+						// If we're out of room in the queue, flush it
 						if (uncompressed_queue_index > 0x1FFF)
 							FlushUncompressedQueue();
 
@@ -131,6 +136,9 @@ int main(int argc, char *argv[])
 					}
 					else if (rle_length >= best_match_length)
 					{
+						// Output RLE-match
+
+						// If any uncompressed bytes need flushing, do it now
 						if (uncompressed_queue_index != 0)
 							FlushUncompressedQueue();
 
@@ -156,6 +164,9 @@ int main(int argc, char *argv[])
 					}
 					else
 					{
+						// Output dictionary match
+
+						// If any uncompressed bytes need flushing, do it now
 						if (uncompressed_queue_index != 0)
 							FlushUncompressedQueue();
 
@@ -163,6 +174,7 @@ int main(int argc, char *argv[])
 
 						best_match_length -= 4;
 
+						// The first match can only encode 7 bytes
 						size_t thing = best_match_length > 3 ? 3 : best_match_length;
 
 						printf("Doing dictionary match (0x%zX bytes)\n", thing + 4);
@@ -172,6 +184,7 @@ int main(int argc, char *argv[])
 
 						best_match_length -= thing;
 
+						// If there are still more bytes in this match, do them in blocks of 0x1F bytes
 						while (best_match_length != 0)
 						{
 							thing = best_match_length > 0x1F ? 0x1F : best_match_length;
@@ -184,13 +197,18 @@ int main(int argc, char *argv[])
 					}
 				}
 
+				// If any uncompressed bytes, since there's nothing left to do now
 				if (uncompressed_queue_index != 0)
 					FlushUncompressedQueue();
 
+				// Write the header
 				out_buffer[0] = out_index & 0xFF;
 				out_buffer[1] = (out_index >> 8) & 0xFF; 
 
+				// Write the terminator byte
 				out_buffer[out_index++] = 0;
+
+				// End of compression
 
 				FILE *out_file = fopen(out_filename, "wb");
 
