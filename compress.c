@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 				if (in_buffer[current_index + length] != in_buffer[current_index - backsearch + length])
 					break;
 
-				if (length + 1 >= best_match_length)	// Should be '>'
+				if (length + 1 >= best_match_length)	// Should probably be '>' instead
 				{
 					best_match_length = length + 1;
 					best_match_backsearch = backsearch;
