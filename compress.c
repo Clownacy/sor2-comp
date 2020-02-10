@@ -17,7 +17,7 @@
 //  3. This notice may not be removed or altered from any source distribution.
 
 // This tool compresses files in the format used by 'Streets of Rage 2'.
-// It should produce identical output to compressed data found in the original ROM.
+// It should produce output identical to compressed data found in the original ROM.
 
 #include <stddef.h>
 #include <stdio.h>
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			out_filename = malloc(strlen(in_filename) + 5);
+			out_filename = malloc(strlen(in_filename) + 6);
 			sprintf(out_filename, "%s.sor2", in_filename);
 		}
 
