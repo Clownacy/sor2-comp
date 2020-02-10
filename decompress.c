@@ -109,32 +109,50 @@ void Decompress(const unsigned char *_in_buffer, size_t in_size, unsigned char *
 
 int main(int argc, char *argv[])
 {
-	const char *in_filename = argc > 1 ? argv[1] : "in";
-	const char *out_filename = argc > 2 ? argv[2] : "out";
-
-	FILE *in_file = fopen(in_filename, "rb");
-
-	if (in_file != NULL)
+	if (argc == 1)
 	{
-		fseek(in_file, 0, SEEK_END);
-		size_t in_size = ftell(in_file);
-		rewind(in_file);
+		printf("\nStreets of Rage 2 decompressor by Clownacy\n\nUsage:\n    %s [input file] [output file]\n\n", argv[0]);
+	}
+	else
+	{
+		const char *in_filename = argv[1];
 
-		unsigned char *in_buffer = malloc(in_size);
+		char *out_filename;
 
-		fread(in_buffer, 1, in_size, in_file);
-		fclose(in_file);
-
-		unsigned char *out_buffer;
-		size_t out_size;
-		Decompress(in_buffer, in_size, &out_buffer, &out_size);
-
-		FILE *out_file = fopen(out_filename, "wb");
-
-		if (out_file != NULL)
+		if (argc > 2)
 		{
-			fwrite(out_buffer, 1, out_size, out_file);
-			fclose(out_file);
+			out_filename = argv[2];
+		}
+		else
+		{
+			out_filename = malloc(strlen(in_filename) + 5);
+			sprintf(out_filename, "%s.unc", in_filename);
+		}
+
+		FILE *in_file = fopen(in_filename, "rb");
+
+		if (in_file != NULL)
+		{
+			fseek(in_file, 0, SEEK_END);
+			size_t in_size = ftell(in_file);
+			rewind(in_file);
+
+			unsigned char *in_buffer = malloc(in_size);
+
+			fread(in_buffer, 1, in_size, in_file);
+			fclose(in_file);
+
+			unsigned char *out_buffer;
+			size_t out_size;
+			Decompress(in_buffer, in_size, &out_buffer, &out_size);
+
+			FILE *out_file = fopen(out_filename, "wb");
+
+			if (out_file != NULL)
+			{
+				fwrite(out_buffer, 1, out_size, out_file);
+				fclose(out_file);
+			}
 		}
 	}
 
