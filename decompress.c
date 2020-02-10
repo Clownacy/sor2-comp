@@ -1,3 +1,7 @@
+// This tool decompresses files in the format used by 'Streets of Rage 2'.
+
+// ...This thing is really messy.
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -9,7 +13,7 @@ static const unsigned char *orig_in_buffer;
 static const unsigned char *in_buffer;
 static unsigned char *out_buffer;
 
-void DecompressBlock(void)
+static void DecompressBlock(void)
 {
 	const unsigned char *in_buffer_end = in_buffer + (in_buffer[0] | (in_buffer[1] << 8));
 
@@ -85,7 +89,7 @@ void DecompressBlock(void)
 	}
 }
 
-void Decompress(const unsigned char *_in_buffer, size_t in_size, unsigned char **_out_buffer, size_t *out_size)
+static void Decompress(const unsigned char *_in_buffer, size_t in_size, unsigned char **_out_buffer, size_t *out_size)
 {
 	(void)in_size;
 
