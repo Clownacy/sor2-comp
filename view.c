@@ -77,4 +77,6 @@ int main(int argc, char *argv[])
 	SDL_FreeSurface(surface);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
+
+	return 0;
 }
