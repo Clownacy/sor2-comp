@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		const char *in_filename = argc > 1 ? argv[1] : "comp_in";
+		const char *in_filename = argv[1];
 
 		char *out_filename;
 
@@ -261,4 +261,6 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
+
+	return 0;
 }
