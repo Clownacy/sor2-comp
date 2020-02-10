@@ -1,7 +1,9 @@
+CFLAGS = -Wall -Wextra -pedantic
+
 all: decompress compress
 
 decompress: decompress.c
-	$(CC) $^ -o $@ $(CFLAGS) $(LDFLAGS) -Wall -Wextra -pedantic -ggdb3
+	$(CC) $^ -o $@ $(CFLAGS) $(LDFLAGS) $(LIBS)
 
 compress: compress.c
-	$(CC) $^ -o $@ $(CFLAGS) $(LDFLAGS) -Wall -Wextra -pedantic -ggdb3
+	$(CC) $^ -o $@ $(CFLAGS) $(LDFLAGS) $(LIBS)
