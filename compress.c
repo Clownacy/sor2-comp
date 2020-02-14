@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 {
 	if (argc == 1)
 	{
-		printf("\nStreets of Rage 2 compressor by Clownacy\n\nUsage:\n    %s [input file] [output file]\n\n", argv[0]);
+		printf("\nStreets of Rage 2 compressor by Clownacy.\nThis version produces smaller files than the other one.\n\nUsage:\n    %s [input file] [output file]\n\n", argv[0]);
 	}
 	else
 	{
