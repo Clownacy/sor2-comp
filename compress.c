@@ -197,7 +197,7 @@ int main(int argc, char *argv[])
 					}
 				}
 
-				// If any uncompressed bytes, since there's nothing left to do now
+				// Flush any uncompressed bytes, since there's nothing left to do now
 				if (uncompressed_queue_index != 0)
 					FlushUncompressedQueue();
 
