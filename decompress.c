@@ -99,13 +99,13 @@ static void Decompress(const unsigned char *_in_buffer, size_t in_size, unsigned
 	in_buffer = _in_buffer;
 	out_buffer = aaa_out_buffer;
 
-	for (;;)
-	{
+//	for (;;)
+//	{
 		DecompressBlock();
 
-		if (*in_buffer++ == 0)
-			break;
-	}
+//		if (*in_buffer++ == 0)
+//			break;
+//	}
 
 	*_out_buffer = aaa_out_buffer;
 	*out_size = out_buffer - aaa_out_buffer;
